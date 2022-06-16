@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Container(
-              color: Colors.blue[50],
+              // color: Colors.blue[50],
               width: double.infinity,
               child: Align(
                 alignment: Alignment.centerRight,
