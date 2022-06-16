@@ -9,9 +9,9 @@ class ScreenLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
       ),
-      body: LoginPage(),
+      body: const LoginPage(),
     );
   }
 }
@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             Container(
@@ -56,8 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            Container(
-              // color: Colors.blue[50],
+            SizedBox(
               width: double.infinity,
               child: Align(
                 alignment: Alignment.centerRight,
