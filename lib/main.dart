@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'login_page.dart';
+import 'screens/login_page.dart';
 
 Future<void> main() async {
   runApp(const HMS());
