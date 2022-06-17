@@ -26,18 +26,31 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final _userIdformKey = GlobalKey<FormState>();
+  final _userpassformKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 50,
-            ),
-            Container(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 50,
+          ),
+          Form(
+            key: _userIdformKey,
+            child: Container(
               padding: const EdgeInsets.all(10),
-              child: TextField(
+              child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  } else if (value.length != 7) {
+                    return 'UserId is short';
+                  }
+                  return null;
+                },
                 controller: nameController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -45,9 +58,18 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: TextField(
+          ),
+          Form(
+            key: _userpassformKey,
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
                 obscureText: true,
                 controller: passwordController,
                 decoration: const InputDecoration(
@@ -56,32 +78,49 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            Container(
-              // color: Colors.blue[50],
-              width: double.infinity,
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    //forgot password screen
-                  },
-                  child: const Text(
-                    'Forgot Password',
-                  ),
+          ),
+          SizedBox(
+            // color: Colors.blue[50],
+            width: double.infinity,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  //forgot password screen
+                },
+                child: const Text(
+                  'Forgot Password',
                 ),
               ),
             ),
-            Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: ElevatedButton(
-                  child: const Text('Login'),
-                  onPressed: () {
-                    print(nameController.text);
-                    print(passwordController.text);
-                  },
-                )),
-          ],
-        ));
+          ),
+          Container(
+              height: 50,
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: ElevatedButton(
+                child: const Text('Login'),
+                onPressed: () {
+                  if (_formValidator()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Logging..'),
+                      ),
+                    );
+                  }
+                  print(nameController.text);
+                  print(passwordController.text);
+                },
+              )),
+        ],
+      ),
+    );
+  }
+
+  _formValidator() {
+    if (_userIdformKey.currentState!.validate() &&
+        _userpassformKey.currentState!.validate()) {
+      return true;
+    }
+    return false;
   }
 }
