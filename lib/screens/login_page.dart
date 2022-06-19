@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/profile_page.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class ScreenLogin extends StatelessWidget {
@@ -107,8 +109,17 @@ class _LoginPageState extends State<LoginPage> {
                     //id stored in hivebox.
                     var a = await _postLogin(
                         nameController.text, passwordController.text);
-                    print(a);
-                    _snackbar(a);
+                    if(a=='success'){
+                      _snackbar(a);
+                      _storeDataToLocal();
+                      _navigateToProfile();
+                    }
+                    else{
+                      print("not success in api/login");
+                      _snackbar(a);
+                    }
+                    
+                    
                   }
                   print(nameController.text);
                   print(passwordController.text);
@@ -148,10 +159,23 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
       var a = jsonDecode(response.body);
-      print(a);
       return (a['status']);
     } catch (e) {
       return e.toString();
     }
+  }
+
+  _navigateToProfile() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ScreenProfile(),
+      ),
+    );
+  }
+
+  _storeDataToLocal() {
+    var box = Hive.box('loginBox');
+    box.put('isLoggedIn', true);
   }
 }

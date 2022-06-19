@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:frontend/screens/profile_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'screens/login_page.dart';
 
@@ -14,6 +15,16 @@ class HMS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(_storeDataToLocal());
+    if(_storeDataToLocal()){
+      return MaterialApp(
+      title: "HMS",
+      theme: ThemeData(primaryColor: Colors.blue),
+      home: const SafeArea(
+        child: ScreenProfile(),
+      ),
+    );
+    }
     return MaterialApp(
       title: "HMS",
       theme: ThemeData(primaryColor: Colors.blue),
@@ -21,5 +32,12 @@ class HMS extends StatelessWidget {
         child: ScreenLogin(),
       ),
     );
+  }
+
+  _storeDataToLocal() {
+    var box = Hive.box('loginBox');
+    // box.put('isLoggedIn', false);
+    box.put('isLoggedIn', true);
+    return (box.get('isLoggedIn'));
   }
 }
