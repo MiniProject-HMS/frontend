@@ -1,6 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:http/http.dart' as http;
 
 class ScreenLogin extends StatelessWidget {
   const ScreenLogin({Key? key}) : super(key: key);
@@ -46,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
-                  } else if (value.length != 7) {
+                  } else if (value.length < 7) {
                     return 'UserId is short';
                   }
                   return null;
@@ -101,11 +102,13 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text('Login'),
                 onPressed: () {
                   if (_formValidator()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Logging..'),
-                      ),
-                    );
+                    
+                    //POST request goes here. if success, then store a boolean to hivebox loginbox and
+                    //if box is empty then open login page else directly go to profile dashboard with the
+                    //id stored in hivebox.
+                    var a = _postLogin(nameController.text, passwordController.text);
+                    print(a);
+                    _snackbar(a);
                   }
                   print(nameController.text);
                   print(passwordController.text);
@@ -116,11 +119,52 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  _snackbar(message) async{
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('$message'),
+      ),
+    );
+  }
+
   _formValidator() {
     if (_userIdformKey.currentState!.validate() &&
         _userpassformKey.currentState!.validate()) {
       return true;
     }
     return false;
+  }
+
+  _postLogin(id, passw) async {
+    try {
+      var response = await http.post(
+        Uri.parse('https://jsonplaceholder.typicode.com/posts'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          {
+            'data': {'adm_no': id, 'pass': passw}
+          },
+        ),
+      );
+      var a = jsonDecode(response.body);
+      return(a['data']['adm_no']);
+    } catch (e) {
+      return e;
+    }
+    // print(response.body);
+    // try {
+    //   var response = await http.post(
+    //   Uri.parse('https://jsonplaceholder.typicode.com/posts'),
+    //   body: {
+    //
+    //   }
+    // );
+    // print(response.body);
+    // } catch(e) {
+    //   print('error');
+    //   print(e);
+    // }
   }
 }

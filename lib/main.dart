@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'screens/login_page.dart';
 
 Future<void> main() async {
+  await Hive.initFlutter();
+  await Hive.openBox('loginBox');
   runApp(const HMS());
 }
 
