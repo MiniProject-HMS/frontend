@@ -100,13 +100,13 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: ElevatedButton(
                 child: const Text('Login'),
-                onPressed: () {
+                onPressed: () async {
                   if (_formValidator()) {
-                    
                     //POST request goes here. if success, then store a boolean to hivebox loginbox and
                     //if box is empty then open login page else directly go to profile dashboard with the
                     //id stored in hivebox.
-                    var a = _postLogin(nameController.text, passwordController.text);
+                    var a = await _postLogin(
+                        nameController.text, passwordController.text);
                     print(a);
                     _snackbar(a);
                   }
@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  _snackbar(message) async{
+  _snackbar(message) async {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('$message'),
@@ -135,36 +135,23 @@ class _LoginPageState extends State<LoginPage> {
     return false;
   }
 
-  _postLogin(id, passw) async {
+  Future<String> _postLogin(id, passw) async {
     try {
       var response = await http.post(
-        Uri.parse('https://jsonplaceholder.typicode.com/posts'),
+        Uri.parse(
+            'https://cbcd-2409-4073-4e11-7254-c55e-3d0a-dfaf-4fca.in.ngrok.io/api/login/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(
-          {
-            'data': {'adm_no': id, 'pass': passw}
-          },
+          {'admission_no': id, 'password': passw},
         ),
       );
       var a = jsonDecode(response.body);
-      return(a['data']['adm_no']);
+      print(a);
+      return (a['status']);
     } catch (e) {
-      return e;
+      return e.toString();
     }
-    // print(response.body);
-    // try {
-    //   var response = await http.post(
-    //   Uri.parse('https://jsonplaceholder.typicode.com/posts'),
-    //   body: {
-    //
-    //   }
-    // );
-    // print(response.body);
-    // } catch(e) {
-    //   print('error');
-    //   print(e);
-    // }
   }
 }
