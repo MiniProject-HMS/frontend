@@ -36,8 +36,8 @@ class HMS extends StatelessWidget {
 
   _storeDataToLocal() {
     var box = Hive.box('loginBox');
-    // box.put('isLoggedIn', false);
-    box.put('isLoggedIn', true);
+    //  box.put('isLoggedIn', false);
+    //  box.put('isLoggedIn', true);
     return (box.get('isLoggedIn'));
   }
 }
