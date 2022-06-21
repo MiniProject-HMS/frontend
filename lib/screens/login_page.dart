@@ -12,9 +12,9 @@ class ScreenLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
       ),
-      body: LoginPage(),
+      body: const LoginPage(),
     );
   }
 }
