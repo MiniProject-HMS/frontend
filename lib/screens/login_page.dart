@@ -109,14 +109,14 @@ class _LoginPageState extends State<LoginPage> {
                     //id stored in hivebox.
                     var a = await _postLogin(
                         nameController.text, passwordController.text);
+                        print(a);
                     if(a=='success'){
                       _snackbar(a);
                       _storeDataToLocal();
                       _navigateToProfile();
                     }
                     else{
-                      print("not success in api/login");
-                      _snackbar(a);
+                      _snackbar('Unsuccessful');
                     }
                     
                     
@@ -150,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       var response = await http.post(
         Uri.parse(
-            'https://cbcd-2409-4073-4e11-7254-c55e-3d0a-dfaf-4fca.in.ngrok.io/api/login/'),
+            'http://127.0.0.1:8000/api/login/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
