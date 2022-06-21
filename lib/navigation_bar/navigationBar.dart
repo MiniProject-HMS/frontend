@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/complaint_page.dart';
+import 'package:frontend/screens/profile_page.dart';
 
 class NavBarr extends StatefulWidget {
   const NavBarr({Key? key}) : super(key: key);
@@ -10,30 +12,54 @@ class NavBarr extends StatefulWidget {
 class _NavBarrState extends State<NavBarr> {
   int _selectedIndex = 0;
 
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.blue);
+  static const List<Widget> _widgetOptions = <Widget>[
+    ScreenProfile(),
+    ScreenComplaint(),
+    Text(
+      'Bill Information',
+      style: optionStyle,
+    ),
+    Text(
+      'QR scanner',
+      style: optionStyle,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.amber,
+        selectedItemColor: Colors.amber,
+        // fixedColor: Colors.black,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '',
+            backgroundColor: Colors.blueAccent,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '',
+            backgroundColor: Colors.blueAccent,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '',
+            backgroundColor: Colors.blueAccent,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '',
+            backgroundColor: Colors.blueAccent,
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.white,
         onTap: _onItemTapped,
       ),
     );

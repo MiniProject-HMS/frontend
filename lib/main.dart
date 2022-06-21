@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:frontend/navigation_bar/navigationBar.dart';
 import 'package:frontend/screens/profile_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'screens/login_page.dart';
@@ -21,7 +22,7 @@ class HMS extends StatelessWidget {
       title: "HMS",
       theme: ThemeData(primaryColor: Colors.blue),
       home: const SafeArea(
-        child: ScreenProfile(),
+        child: NavBarr(),
       ),
     );
     }
@@ -29,7 +30,7 @@ class HMS extends StatelessWidget {
       title: "HMS",
       theme: ThemeData(primaryColor: Colors.blue),
       home: const SafeArea(
-        child: ScreenLogin(),
+        child: NavBarr(),
       ),
     );
   }
