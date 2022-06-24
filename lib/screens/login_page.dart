@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/navigation_bar/navigationBar.dart';
 import 'package:frontend/screens/profile_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -169,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const ScreenProfile(),
+        builder: (context) => const NavBarr(),
       ),
     );
   }

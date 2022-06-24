@@ -54,9 +54,9 @@ class ScreenProfile extends StatelessWidget {
           const SizedBox(
             height: 20.0,
           ),
-          Expanded(
+          const Expanded(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20.0,0,20.0,20.0),
+              padding: EdgeInsets.fromLTRB(20.0,0,20.0,20.0),
               child: SizedBox(
                 width: double.infinity,
                 // height: 100.0,
