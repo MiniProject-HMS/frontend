@@ -34,29 +34,30 @@ class _NavBarrState extends State<NavBarr> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.amber,
+        elevation: 2,
+        backgroundColor: Colors.transparent,
         selectedItemColor: Colors.amber,
         // fixedColor: Colors.black,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '',
-            backgroundColor: Colors.blueAccent,
+            backgroundColor: Colors.transparent,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '',
-            backgroundColor: Colors.blueAccent,
+            backgroundColor: Colors.transparent,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '',
-            backgroundColor: Colors.blueAccent,
+            backgroundColor: Colors.transparent,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '',
-            backgroundColor: Colors.blueAccent,
+            backgroundColor: Colors.transparent,
           ),
         ],
         currentIndex: _selectedIndex,
