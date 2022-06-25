@@ -36,26 +36,26 @@ class _NavBarrState extends State<NavBarr> {
       bottomNavigationBar: BottomNavigationBar(
         elevation: 2,
         backgroundColor: Colors.transparent,
-        selectedItemColor: Colors.amber,
+        selectedItemColor: Colors.black38,
         // fixedColor: Colors.black,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Image.asset('assets/icons/profile_icon.png', height: 50,),
             label: '',
             backgroundColor: Colors.transparent,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Image.asset('assets/icons/complaints_icon.png', height: 50,),
             label: '',
             backgroundColor: Colors.transparent,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Image.asset('assets/icons/bill_info_icon.png', height: 50,),
             label: '',
             backgroundColor: Colors.transparent,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Image.asset('assets/icons/scanner_icon.png', height: 50,),
             label: '',
             backgroundColor: Colors.transparent,
           ),
