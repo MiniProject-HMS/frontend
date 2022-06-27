@@ -22,6 +22,66 @@ class _ScreenBillState extends State<ScreenBill> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Padding(
+            padding: const EdgeInsets.all(40),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Bills',
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.white,
+                  ),
+                ),
+                Divider(
+                  thickness: 2,
+                ),
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: _unpaidBillsList(),
+                )),
+              ],
+            )),
+      ),
+    );
+  }
+
+  Widget _unpaidBillsList() {
+    final List<String> entries = <String>['1', '2', '3'];
+    return (ListView.separated(
+      // padding: const EdgeInsets.all(8),
+      itemCount: entries.length,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          title: Text(
+            'MONTH ${entries[index]}',
+            style: TextStyle(color: Colors.white),
+          ),
+          onTap: () {
+            print(index);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => _billInfo(index)),
+            );
+          },
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) => const SizedBox(),
+    ));
+  }
+
+  Widget _billInfo(index) {
+    return Container(
+      constraints: const BoxConstraints.expand(),
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+        image: AssetImage('assets/backgrounds/bg.png'),
+        fit: BoxFit.cover,
+      )),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Padding(
           padding: const EdgeInsets.all(40.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,9 +90,11 @@ class _ScreenBillState extends State<ScreenBill> {
                 'Bill information',
                 style: TextStyle(fontSize: 30, color: Colors.white),
               ),
-              Divider(),
+              Divider(
+                thickness: 2,
+              ),
               Row(
-                children: const [
+                children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Text(
@@ -44,7 +106,7 @@ class _ScreenBillState extends State<ScreenBill> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Text(
-                      'k',
+                      '$index',
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   )
