@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/bill_info.dart';
 import 'package:frontend/screens/complaint_page.dart';
 import 'package:frontend/screens/profile_page.dart';
 
@@ -17,10 +18,7 @@ class _NavBarrState extends State<NavBarr> {
   static const List<Widget> _widgetOptions = <Widget>[
     ScreenProfile(),
     ScreenComplaint(),
-    Text(
-      'Bill Information',
-      style: optionStyle,
-    ),
+    ScreenBill(),
     Text(
       'QR scanner',
       style: optionStyle,

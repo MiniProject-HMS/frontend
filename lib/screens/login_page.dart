@@ -35,98 +35,106 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 50,
-          ),
-          Form(
-            key: _userIdformKey,
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              child: TextFormField(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  } else if (value.length < 7) {
-                    return 'UserId is short';
-                  }
-                  return null;
-                },
-                controller: nameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'User Name',
-                ),
-              ),
-            ),
-          ),
-          Form(
-            key: _userpassformKey,
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              child: TextFormField(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-                obscureText: true,
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            // color: Colors.blue[50],
-            width: double.infinity,
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {
-                  //forgot password screen
-                },
-                child: const Text(
-                  'Forgot Password',
-                ),
-              ),
-            ),
-          ),
-          Container(
+    return Container(
+      constraints: const BoxConstraints.expand(),
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+        image: AssetImage('assets/backgrounds/bg.png'),
+        fit: BoxFit.cover,
+      )),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            const SizedBox(
               height: 50,
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: ElevatedButton(
-                child: const Text('Login'),
-                onPressed: () async {
-                  if (_formValidator()) {
-                    //POST request goes here. if success, then store a boolean to hivebox loginbox and
-                    //if box is empty then open login page else directly go to profile dashboard with the
-                    //id stored in hivebox.
-                    var a = await _postLogin(
-                        nameController.text, passwordController.text);
-                        print(a);
-                    if(a=='success'){
-                      _snackbar(a);
-                      _storeDataToLocal();
-                      _navigateToProfile();
+            ),
+            Form(
+              key: _userIdformKey,
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    } else if (value.length < 7) {
+                      return 'UserId is short';
                     }
-                    else{
-                      _snackbar('Unsuccessful');
+                    return null;
+                  },
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'User Name',
+                  ),
+                ),
+              ),
+            ),
+            Form(
+              key: _userpassformKey,
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
                     }
-                    
-                    
-                  }
-                  print(nameController.text);
-                  print(passwordController.text);
-                },
-              )),
-        ],
+                    return null;
+                  },
+                  obscureText: true,
+                  controller: passwordController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              // color: Colors.blue[50],
+              width: double.infinity,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    //forgot password screen
+                  },
+                  child: const Text(
+                    'Forgot Password',
+                  ),
+                ),
+              ),
+            ),
+            Container(
+                height: 50,
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: ElevatedButton(
+                  child: const Text('Login'),
+                  onPressed: () async {
+                    if (_formValidator()) {
+                      //POST request goes here. if success, then store a boolean to hivebox loginbox and
+                      //if box is empty then open login page else directly go to profile dashboard with the
+                      //id stored in hivebox.
+                      var a = await _postLogin(
+                          nameController.text, passwordController.text);
+                          print(a);
+                      if(a=='success'){
+                        _snackbar(a);
+                        _storeDataToLocal();
+                        _navigateToProfile();
+                      }
+                      else{
+                        _snackbar('Unsuccessful');
+                      }
+                      
+                      
+                    }
+                    print(nameController.text);
+                    print(passwordController.text);
+                  },
+                )),
+          ],
+        ),
       ),
     );
   }

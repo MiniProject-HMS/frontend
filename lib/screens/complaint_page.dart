@@ -49,7 +49,7 @@ class ScreenComplaint extends StatelessWidget {
               const Padding(
                 padding: const EdgeInsets.fromLTRB(40.0, 10.0, 40.0, 0),
                 child: Divider(
-                  thickness: 5,
+                  thickness: 2,
                 ),
               ),
               _widgetNoComplaints(),
