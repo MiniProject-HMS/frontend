@@ -6,6 +6,7 @@ import 'screens/login_page.dart';
 Future<void> main() async {
   await Hive.initFlutter();
   await Hive.openBox('loginBox');
+  await Hive.openBox('dataStore');
   runApp(const HMS());
 }
 
@@ -35,7 +36,7 @@ class HMS extends StatelessWidget {
 
   _storeDataToLocal() {
     var box = Hive.box('loginBox');
-    // box.put('isLoggedIn', false);
+    //  box.put('isLoggedIn', false);
     //  box.put('isLoggedIn', true);
     return (box.get('isLoggedIn'));
   }

@@ -55,7 +55,7 @@ class _ScreenBillState extends State<ScreenBill> {
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
           title: Text(
-            'MONTH ${entries[index]}',
+            'MONTH ${entries[index]}', //year
             style: TextStyle(color: Colors.white),
           ),
           onTap: () {
@@ -65,6 +65,7 @@ class _ScreenBillState extends State<ScreenBill> {
               MaterialPageRoute(builder: (context) => _billInfo(index)),
             );
           },
+          trailing: Text('Unpaid', style: TextStyle(color: Colors.white),),
         );
       },
       separatorBuilder: (BuildContext context, int index) => const SizedBox(),

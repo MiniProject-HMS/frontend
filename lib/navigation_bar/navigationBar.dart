@@ -15,11 +15,11 @@ class _NavBarrState extends State<NavBarr> {
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.blue);
-  static const List<Widget> _widgetOptions = <Widget>[
-    ScreenProfile(),
+  static final List<Widget> _widgetOptions = <Widget>[
+    const ScreenProfile(),
     ScreenComplaint(),
-    ScreenBill(),
-    Text(
+    const ScreenBill(),
+    const Text(
       'QR scanner',
       style: optionStyle,
     ),
