@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
+// Pending works
+// Organise tiles so that statused to be implemented with images
+// Call data from hive to get and post methods
+// Implement ValueNotifier to get method
+
 class ScreenComplaint extends StatefulWidget {
   ScreenComplaint({Key? key}) : super(key: key);
 
@@ -64,6 +69,11 @@ class _ScreenComplaintState extends State<ScreenComplaint> {
   }
 }
 
+// Global declaration for preventing loading everytime
+// ignore: non_constant_identifier_names
+List complaints_list = [];
+bool fetched = false;
+
 class ListOfComplaints extends StatefulWidget {
   const ListOfComplaints({Key? key}) : super(key: key);
 
@@ -72,31 +82,44 @@ class ListOfComplaints extends StatefulWidget {
 }
 
 class _ListOfComplaintsState extends State<ListOfComplaints> {
-  List complaints_list = [];
-
   @override
   void initState() {
     super.initState();
-    fetchComplaints();
+    if (complaints_list.isEmpty) {
+      fetchComplaints();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!complaints_list.isEmpty) {
-      return (ListView.separated(
-        padding: const EdgeInsets.all(8),
-        itemCount: complaints_list.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            height: 50,
-            child: Center(child: Text('${complaints_list[index]}')),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
-      ));
+    if (fetched == true) {
+      if (!complaints_list.isEmpty) {
+        return (ListView.separated(
+          padding: const EdgeInsets.fromLTRB(40.0, 10.0, 40.0, 0),
+          itemCount: complaints_list.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              height: 50,
+              child: ListTile(
+                textColor: Colors.white,
+                title: Text('${complaints_list[index]}'),
+                trailing: Text('+'),
+              ),
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) =>
+              const Divider(),
+        ));
+      } else {
+        return (const Text(
+          'There are no complaints',
+          style:
+              TextStyle(fontFamily: 'Arial', fontSize: 30, color: Colors.white),
+        ));
+      }
     } else {
       return (const Text(
-        'There are no complaints',
+        'Loading...',
         style:
             TextStyle(fontFamily: 'Arial', fontSize: 30, color: Colors.white),
       ));
@@ -110,13 +133,15 @@ class _ListOfComplaintsState extends State<ListOfComplaints> {
       var complaintsList = jsonDecode(response.body);
       complaints_list.clear();
       setState(() {
+        fetched = true;
         for (var i = 0; i < complaintsList['data'].length; i++) {
           complaints_list.add(complaintsList['data'][i]['complaint_desc']);
         }
-
       });
     } else {
-      return ('Suiiii');
+      setState(() {
+        fetched = false;
+      });
     }
   }
 }
