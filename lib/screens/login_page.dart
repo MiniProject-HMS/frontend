@@ -168,6 +168,8 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
       var a = jsonDecode(response.body);
+      var box = Hive.box('dataStore');
+      box.put('adm_id', id);
       return (a['status']);
     } catch (e) {
       return e.toString();

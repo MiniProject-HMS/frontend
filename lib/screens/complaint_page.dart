@@ -4,8 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 // Pending works
-// Organise tiles so that statused to be implemented with images
-// Call data from hive to get and post methods
+// Call data from hive to get and post methods which is to be added through profile, which is not done yet
 // Implement ValueNotifier to get method
 
 class ScreenComplaint extends StatefulWidget {
@@ -72,6 +71,7 @@ class _ScreenComplaintState extends State<ScreenComplaint> {
 // Global declaration for preventing loading everytime
 // ignore: non_constant_identifier_names
 List complaints_list = [];
+List complaint_status = [];
 bool fetched = false;
 
 class ListOfComplaints extends StatefulWidget {
@@ -85,15 +85,16 @@ class _ListOfComplaintsState extends State<ListOfComplaints> {
   @override
   void initState() {
     super.initState();
-    if (complaints_list.isEmpty) {
+    if (!fetched) {
       fetchComplaints();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box('dataStore');
     if (fetched == true) {
-      if (!complaints_list.isEmpty) {
+      if (complaints_list.isNotEmpty) {
         return (ListView.separated(
           padding: const EdgeInsets.fromLTRB(40.0, 10.0, 40.0, 0),
           itemCount: complaints_list.length,
@@ -103,7 +104,7 @@ class _ListOfComplaintsState extends State<ListOfComplaints> {
               child: ListTile(
                 textColor: Colors.white,
                 title: Text('${complaints_list[index]}'),
-                trailing: Text('+'),
+                trailing: _statusViewer(index),
               ),
             );
           },
@@ -126,16 +127,25 @@ class _ListOfComplaintsState extends State<ListOfComplaints> {
     }
   }
 
+  _statusViewer(index) {
+    if(complaint_status[index]){
+      return const Icon(Icons.check,color: Colors.white,);
+    }
+    return const Icon(Icons.close, color: Colors.white,);
+  }
+
   Future fetchComplaints() async {
     const url = 'http://127.0.0.1:8000/api/complaints/?room_no=404&hostel=MH1';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       var complaintsList = jsonDecode(response.body);
       complaints_list.clear();
+      complaint_status.clear();
       setState(() {
         fetched = true;
         for (var i = 0; i < complaintsList['data'].length; i++) {
           complaints_list.add(complaintsList['data'][i]['complaint_desc']);
+          complaint_status.add(complaintsList['data'][i]['status']);
         }
       });
     } else {
@@ -258,6 +268,8 @@ class _CreateComplaintState extends State<CreateComplaint> {
       'room_no': roomNo,
       'complaint_desc': compDesc
     };
+    //change try to if by giving status code 200 condition
+    //also change backend if request failed
     try {
       var response = await http.post(
         Uri.parse('http://127.0.0.1:8000/api/complaints/'),
@@ -267,6 +279,9 @@ class _CreateComplaintState extends State<CreateComplaint> {
         body: jsonEncode(complaintData),
       );
       var status = jsonDecode(response.body);
+      setState(() {
+        fetched = false;
+      });
       return (status["status"]);
     } catch (e) {
       return 'Unsuccessfull';
