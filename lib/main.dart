@@ -45,7 +45,7 @@ class HMS extends StatelessWidget {
     }
     return MaterialApp(
       title: "HMS",
-      theme: ThemeData(primaryColor: Colors.blue),
+      theme: ThemeData(primaryColor: Colors.grey, primarySwatch: Colors.amber),
       home: const SafeArea(
         child: ScreenLogin(),
       ),

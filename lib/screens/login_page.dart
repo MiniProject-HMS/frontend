@@ -11,11 +11,8 @@ class ScreenLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
-      body: const LoginPage(),
+    return const Scaffold(
+      body: LoginPage(),
     );
   }
 }
@@ -43,9 +40,21 @@ class _LoginPageState extends State<LoginPage> {
         fit: BoxFit.cover,
       )),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(30),
         child: Column(
           children: [
+            const SizedBox(
+              height: 03,
+            ),
+            Center(
+                child: Text(
+              'Login',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey[300],
+                fontSize: 50,
+              ),
+            )),
             const SizedBox(
               height: 50,
             ),
@@ -64,7 +73,8 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   controller: nameController,
                   decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.account_box),
+                    border: UnderlineInputBorder(),
                     labelText: 'User Name',
                   ),
                 ),
@@ -84,31 +94,34 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: true,
                   controller: passwordController,
                   decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.key),
+                    border: UnderlineInputBorder(),
                     labelText: 'Password',
                   ),
                 ),
               ),
             ),
-            SizedBox(
-              // color: Colors.blue[50],
-              width: double.infinity,
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    //forgot password screen
-                  },
-                  child: const Text(
-                    'Forgot Password',
-                  ),
-                ),
-              ),
-            ),
+            // SizedBox(
+            //   // color: Colors.blue[50],
+            //   width: double.infinity,
+            //   child: Align(
+            //     alignment: Alignment.centerRight,
+            //     child: TextButton(
+            //       onPressed: () {
+            //         //forgot password screen
+            //       },
+            //       child: const Text(
+            //         'Forgot Password',
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Container(
                 height: 50,
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Colors.grey[350],),
+                  
                   child: const Text('Login'),
                   onPressed: () async {
                     if (_formValidator()) {
@@ -117,27 +130,21 @@ class _LoginPageState extends State<LoginPage> {
                       //id stored in hivebox.
                       var a = await _postLogin(
                           nameController.text, passwordController.text);
-                          // print(a);
-                      if(a=='success'){
+                      // print(a);
+                      if (a == 'success') {
                         _snackbar(a);
                         _storeDataToLocal();
                         print((nameController.text).contains('1999'));
-                        if((nameController.text).contains('1999')){
+                        if ((nameController.text).contains('1999')) {
                           _navigateToWorker();
                           var accessWorker = Hive.box("dataStore");
                           accessWorker.put('isWorker', true);
-                        }
-                        else{
+                        } else {
                           _navigateToProfile();
-                          
                         }
-                        
-                      }
-                      else{
+                      } else {
                         _snackbar('Unsuccessful');
                       }
-                      
-                      
                     }
                     print(nameController.text);
                     print(passwordController.text);
@@ -177,8 +184,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<String> _postLogin(id, passw) async {
     try {
       var response = await http.post(
-        Uri.parse(
-            'http://127.0.0.1:8000/api/login/'),
+        Uri.parse('http://127.0.0.1:8000/api/login/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -194,6 +200,7 @@ class _LoginPageState extends State<LoginPage> {
       return e.toString();
     }
   }
+
   //replace qith Navigator.pushReplacement
   _navigateToProfile() {
     Navigator.pushReplacement(
