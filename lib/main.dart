@@ -14,17 +14,34 @@ Future<void> main() async {
 class HMS extends StatelessWidget {
   const HMS({Key? key}) : super(key: key);
 
+  // @override
+  // void initState() {
+  //   var loginUser = Hive.box('dataStore');
+  //   loginUser.put('isWorker', false);
+  // }
+
   @override
   Widget build(BuildContext context) {
-    print(_storeDataToLocal());
-    if(_storeDataToLocal()==true){
-      return MaterialApp(
-      title: "HMS",
-      theme: ThemeData(primaryColor: Colors.blue),
-      home: const SafeArea(
-        child: ScreenWorker(),
-      ),
-    );
+    // print(_storeDataToLocal());
+    if (_storeDataToLocal() == true) {
+      if (Hive.box('dataStore').get('isWorker') == false) {
+        return MaterialApp(
+          title: "HMS",
+          theme: ThemeData(primaryColor: Colors.blue),
+          home: const SafeArea(
+            child: NavBarr(),
+          ),
+        );
+      }
+      else if(Hive.box('dataStore').get('isWorker') == true) {
+        return MaterialApp(
+          title: "HMS",
+          theme: ThemeData(primaryColor: Colors.blue),
+          home: const SafeArea(
+            child: ScreenWorker(),
+          ),
+        );
+      }
     }
     return MaterialApp(
       title: "HMS",
@@ -37,6 +54,8 @@ class HMS extends StatelessWidget {
 
   _storeDataToLocal() {
     var box = Hive.box('loginBox');
+  // var loginUser = Hive.box('dataStore');
+    // loginUser.put('isWorker', false);
     //  box.put('isLoggedIn', false);
     //  box.put('isLoggedIn', true);
     return (box.get('isLoggedIn'));

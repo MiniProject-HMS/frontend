@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/navigation_bar/navigationBar.dart';
-import 'package:frontend/screens/profile_page.dart';
 import 'package:frontend/screens/workers_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -118,11 +117,21 @@ class _LoginPageState extends State<LoginPage> {
                       //id stored in hivebox.
                       var a = await _postLogin(
                           nameController.text, passwordController.text);
-                          print(a);
+                          // print(a);
                       if(a=='success'){
                         _snackbar(a);
                         _storeDataToLocal();
-                        _navigateToProfile();
+                        print((nameController.text).contains('1999'));
+                        if((nameController.text).contains('1999')){
+                          _navigateToWorker();
+                          var accessWorker = Hive.box("dataStore");
+                          accessWorker.put('isWorker', true);
+                        }
+                        else{
+                          _navigateToProfile();
+                          
+                        }
+                        
                       }
                       else{
                         _snackbar('Unsuccessful');
@@ -136,6 +145,15 @@ class _LoginPageState extends State<LoginPage> {
                 )),
           ],
         ),
+      ),
+    );
+  }
+
+  _navigateToWorker() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ScreenWorker(),
       ),
     );
   }
@@ -178,7 +196,7 @@ class _LoginPageState extends State<LoginPage> {
   }
   //replace qith Navigator.pushReplacement
   _navigateToProfile() {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => const NavBarr(),
