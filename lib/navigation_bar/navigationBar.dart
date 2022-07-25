@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/screens/bill_info.dart';
 import 'package:frontend/screens/complaint_page.dart';
 import 'package:frontend/screens/profile_page.dart';
+import 'package:frontend/screens/qr_page.dart';
 
 class NavBarr extends StatefulWidget {
   const NavBarr({Key? key}) : super(key: key);
@@ -16,13 +17,10 @@ class _NavBarrState extends State<NavBarr> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.blue);
   static final List<Widget> _widgetOptions = <Widget>[
-    const ScreenProfile(),
+     ScreenProfile(),
     ScreenComplaint(),
     const ScreenBill(),
-    const Text(
-      'QR scanner',
-      style: optionStyle,
-    ),
+    const ScreenQr(),
   ];
 
   @override

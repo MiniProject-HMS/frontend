@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: [
             const SizedBox(
-              height: 03,
+              height: 3,
             ),
             Center(
                 child: Text(
@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             )),
             const SizedBox(
-              height: 50,
+              height: 20,
             ),
             Form(
               key: _userIdformKey,
