@@ -135,7 +135,7 @@ class _ListOfComplaintsState extends State<ListOfComplaints> {
   }
 
   Future fetchComplaints() async {
-    const url = 'http://127.0.0.1:8000/api/complaints/?room_no=404&hostel=MH1';
+    const url = 'https://hmslbs.herokuapp.com/api/complaints/?room_no=404&hostel=MH1';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       var complaintsList = jsonDecode(response.body);
@@ -272,7 +272,7 @@ class _CreateComplaintState extends State<CreateComplaint> {
     //also change backend if request failed
     try {
       var response = await http.post(
-        Uri.parse('http://127.0.0.1:8000/api/complaints/'),
+        Uri.parse('https://hmslbs.herokuapp.com/api/complaints/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

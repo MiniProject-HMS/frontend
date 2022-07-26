@@ -127,7 +127,7 @@ class _ScreenWorkerState extends State<ScreenWorker> {
 
   Future _postStatusComplaints(complaintId, status) async {
     final response = await http.post(
-    Uri.parse('http://127.0.0.1:8000/api/works/'),
+    Uri.parse('https://hmslbs.herokuapp.com/api/works/'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -152,7 +152,7 @@ class _ScreenWorkerState extends State<ScreenWorker> {
 
   Future _fetchComplaintsForWorkers() async {
     final response =
-        await http.get(Uri.parse('http://127.0.0.1:8000/api/works/'));
+        await http.get(Uri.parse('https://hmslbs.herokuapp.com/api/works/'));
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,

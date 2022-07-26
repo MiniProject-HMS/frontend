@@ -177,7 +177,7 @@ class ScreenProfile extends StatelessWidget {
   Future fetchName() async {
     var admNo = box.get('adm_id');
     final response = await http.get(
-        Uri.parse('http://127.0.0.1:8000/api/profile/?admission_no=$admNo'));
+        Uri.parse('https://hmslbs.herokuapp.com/api/profile/?admission_no=$admNo'));
 
     if (response.statusCode == 200) {
       var stName = jsonDecode(response.body)["data"][0];

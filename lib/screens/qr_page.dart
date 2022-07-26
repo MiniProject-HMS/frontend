@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -5,7 +7,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:http/http.dart' as http;
 
 class ScreenQr extends StatefulWidget {
   const ScreenQr({Key? key}) : super(key: key);
@@ -18,20 +22,19 @@ class _ScreenQrState extends State<ScreenQr> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        constraints: const BoxConstraints.expand(),
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage('assets/backgrounds/bg.png'),
-          fit: BoxFit.cover,
-        )),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: QRViewExample(),
-        ),
+      constraints: const BoxConstraints.expand(),
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+        image: AssetImage('assets/backgrounds/bg.png'),
+        fit: BoxFit.cover,
+      )),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: QRViewExample(),
+      ),
     );
   }
 }
-
 
 class QRViewExample extends StatefulWidget {
   const QRViewExample({Key? key}) : super(key: key);
@@ -59,6 +62,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey,
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
@@ -70,10 +74,9 @@ class _QRViewExampleState extends State<QRViewExample> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   if (result != null)
-                    Text(
-                        'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                    _storeScannedData(result!.code)
                   else
-                    const Text('Scan a code'),
+                    const Text('Scan QR'),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -194,4 +197,69 @@ class _QRViewExampleState extends State<QRViewExample> {
     controller?.dispose();
     super.dispose();
   }
+
+  _storeScannedData(scannedData) {
+    if (scannedData == 'scanned') {
+      var box = Hive.box('dataStore');
+      box.put('scannedData', scannedData);
+      if(box.get('inHostel') == 'out'){
+        returnStatus(box.get('adm_id'), box.get('movementId'));
+      }
+      else{
+        sendStatus(box.get('adm_id'), box.get('hostel'));
+        
+      }
+      
+      return Text('Success, please exit the app..');
+    }
+
+    return Text("Scan Again!!");
+  }
+
+  Future sendStatus(admNo, hostel) async {
+  final response = await http.post(
+    Uri.parse('http://127.0.0.1:8000/api/out/'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'admission_no': '$admNo',
+      'hostel': '$hostel'
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    var box = Hive.box('dataStore');
+    box.put('inHostel', 'out');
+    box.put('movementId', jsonDecode(response.body)["id"][0]);
+    return (jsonDecode(response.body));
+  } else {
+    
+    throw Exception('Failed to create album.');
+  }
+}
+
+Future returnStatus(admNo, id) async {
+  final response = await http.post(
+    Uri.parse('http://127.0.0.1:8000/api/in/'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'id': '$id',
+      'admission_no': '$admNo'
+      
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    var box = Hive.box('dataStore');
+    box.put('inHostel', 'in');
+    return (jsonDecode(response.body));
+  } else {
+    
+    throw Exception('Failed to create album.');
+  }
+}
+
 }

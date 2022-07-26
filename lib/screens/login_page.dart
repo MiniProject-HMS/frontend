@@ -184,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<String> _postLogin(id, passw) async {
     try {
       var response = await http.post(
-        Uri.parse('http://127.0.0.1:8000/api/login/'),
+        Uri.parse('https://hmslbs.herokuapp.com/api/login/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
