@@ -8,11 +8,11 @@ class ScreenProfile extends StatelessWidget {
   ScreenProfile({Key? key}) : super(key: key);
 
   var box = Hive.box('dataStore');
-  late var name;
+  var name;
 
   @override
   Widget build(BuildContext context) {
-    if ((box.get('stName') == null) || (box.get('hostel') == null)) {
+    if ((box.get('stName') == null) || (box.get('hostel') == null) || (box.get('newLog') == true)) {
       fetchName();
     }
     return Container(
@@ -188,6 +188,7 @@ class ScreenProfile extends StatelessWidget {
       box.put('stName', stName["name"]);
       box.put('hostel', stName["hostel"]);
       box.put('room_no', stName["room_no"]);
+      box.put('newLog', false);
       return "success";
     } else {
       // If the server did not return a 200 OK response,
