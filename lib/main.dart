@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/navigation_bar/navigationBar.dart';
+import 'package:frontend/screens/qr_page.dart';
 import 'package:frontend/screens/workers_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'screens/login_page.dart';

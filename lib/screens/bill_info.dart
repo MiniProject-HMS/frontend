@@ -46,16 +46,16 @@ class _ScreenBillState extends State<ScreenBill> {
       ),
     );
   }
-
+final List<String> entries = <String>['April', 'May', 'June'];
   Widget _unpaidBillsList() {
-    final List<String> entries = <String>['1', '2', '3'];
+    final List<String> entries = <String>['April', 'May', 'June'];
     return (ListView.separated(
       // padding: const EdgeInsets.all(8),
       itemCount: entries.length,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
           title: Text(
-            'MONTH ${entries[index]}', //year
+            '${entries[index]}', //year
             style: TextStyle(color: Colors.white),
           ),
           onTap: () {
@@ -107,7 +107,7 @@ class _ScreenBillState extends State<ScreenBill> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Text(
-                      '$index',
+                      '${entries[index]}',
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   )

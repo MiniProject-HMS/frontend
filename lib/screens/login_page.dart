@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: [
             const SizedBox(
-              height: 03,
+              height: 3,
             ),
             Center(
                 child: Text(
@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             )),
             const SizedBox(
-              height: 50,
+              height: 20,
             ),
             Form(
               key: _userIdformKey,
@@ -184,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<String> _postLogin(id, passw) async {
     try {
       var response = await http.post(
-        Uri.parse('http://127.0.0.1:8000/api/login/'),
+        Uri.parse('https://hmslbs.herokuapp.com/api/login/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -195,6 +195,7 @@ class _LoginPageState extends State<LoginPage> {
       var a = jsonDecode(response.body);
       var box = Hive.box('dataStore');
       box.put('adm_id', id);
+      box.put('newLog', true);
       return (a['status']);
     } catch (e) {
       return e.toString();
